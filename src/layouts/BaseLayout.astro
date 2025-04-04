@@ -131,13 +131,12 @@ const pageTitle = title === SITE_TITLE ? title : `${title} - ${SITE_TITLE}`;
       // 設定を保存
       try {
         const storedTheme = localStorage.getItem('wiki-theme-config');
-        let themeConfig = {};
+        let themeConfig: { darkMode?: boolean } = {};
         
         if (storedTheme) {
           themeConfig = JSON.parse(storedTheme);
         }
         
-        // 安全に darkMode プロパティを設定
         themeConfig.darkMode = isDarkMode;
         
         localStorage.setItem('wiki-theme-config', JSON.stringify(themeConfig));
