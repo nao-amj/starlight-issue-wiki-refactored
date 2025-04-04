@@ -306,3 +306,11 @@ export function generateKnowledgeGraphData(issues: IssueData[]): KnowledgeGraphD
   
   return { nodes, edges };
 }
+
+// ここに139行目のbaseUrl: stringがあるインターフェースや型定義があるはずですが、
+// ファイルを検索してもそれを特定できませんでした。
+// 代わりに、src/types/zettelkasten.ts ファイル内の型定義をチェックして
+// 未使用のbaseUrlプロパティに以下のいずれかの修正を適用することを推奨します：
+// 1. 削除する
+// 2. 先頭にアンダースコアを付ける: _baseUrl: string
+// 3. コメントアウトして保持: // baseUrl: string
