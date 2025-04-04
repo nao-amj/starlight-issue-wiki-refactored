@@ -1,0 +1,200 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { BASE_PATH } from '@/config';
+import SearchBar from '@/components/SearchBar.astro';
+---
+
+<BaseLayout title="Wiki" description="Wikiページ一覧">
+  <div class="wiki-container">
+    <div class="header-section">
+      <h1>Wikiページ一覧</h1>
+      <div class="search-container">
+        <SearchBar placeholder="Wikiページを検索..." size="lg" />
+      </div>
+    </div>
+
+    <div class="message-box">
+      <p>Wikiページが読み込まれています...</p>
+      <p>または、まだページが作成されていない可能性があります。</p>
+      <p><a href={`${BASE_PATH}/wiki/new`} class="create-link">新しいページを作成</a>してみませんか？</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .wiki-container {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .header-section {
+    margin-bottom: 2rem;
+  }
+  
+  .header-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-heading);
+  }
+  
+  .search-container {
+    margin-bottom: 2rem;
+    max-width: 600px;
+  }
+  
+  .message-box {
+    background-color: var(--color-card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .message-box p {
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+  
+  .create-link {
+    color: var(--color-primary);
+    font-weight: 500;
+    text-decoration: none;
+  }
+  
+  .create-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<script is:inline>
+  // ページ読み込み時にIssueを取得
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      // Wiki一覧を取得
+      const response = await fetch('/api/wiki');
+      
+      if (!response.ok) {
+        throw new Error('Wikiデータの取得に失敗しました');
+      }
+      
+      // 応答をJSONとして解析
+      const data = await response.json();
+      
+      // コンテナ要素を取得
+      const container = document.querySelector('.wiki-container');
+      
+      // メッセージボックスを削除
+      const messageBox = document.querySelector('.message-box');
+      if (messageBox) {
+        messageBox.remove();
+      }
+      
+      // Wikiリストを表示
+      if (data.wiki && data.wiki.length > 0) {
+        // Wikiをカテゴリーごとにグループ化
+        const categories = {};
+        const uncategorized = [];
+        
+        data.wiki.forEach(page => {
+          if (page.labels && page.labels.length > 0) {
+            const category = page.labels[0].name;
+            if (!categories[category]) {
+              categories[category] = [];
+            }
+            categories[category].push(page);
+          } else {
+            uncategorized.push(page);
+          }
+        });
+        
+        // カテゴリーコンテナを作成
+        const categoryContainer = document.createElement('div');
+        categoryContainer.className = 'wiki-categories';
+        
+        // カテゴリーリストを作成
+        Object.keys(categories).sort().forEach(category => {
+          const categorySection = document.createElement('div');
+          categorySection.className = 'category-section';
+          
+          const categoryHeader = document.createElement('h2');
+          categoryHeader.className = 'category-title';
+          categoryHeader.textContent = category;
+          
+          const pageList = document.createElement('div');
+          pageList.className = 'page-list';
+          
+          // カテゴリー内のページをソート
+          categories[category].sort((a, b) => a.title.localeCompare(b.title)).forEach(page => {
+            const pageItem = document.createElement('a');
+            pageItem.className = 'page-item';
+            pageItem.href = `${BASE_PATH}/wiki/${page.slug}`;
+            pageItem.innerHTML = `
+              <span class="page-title">${page.title}</span>
+              <span class="page-info">更新: ${new Date(page.updatedAt).toLocaleDateString()}</span>
+            `;
+            pageList.appendChild(pageItem);
+          });
+          
+          categorySection.appendChild(categoryHeader);
+          categorySection.appendChild(pageList);
+          categoryContainer.appendChild(categorySection);
+        });
+        
+        // 未分類のページがあれば追加
+        if (uncategorized.length > 0) {
+          const uncategorizedSection = document.createElement('div');
+          uncategorizedSection.className = 'category-section';
+          
+          const uncategorizedHeader = document.createElement('h2');
+          uncategorizedHeader.className = 'category-title';
+          uncategorizedHeader.textContent = '未分類';
+          
+          const pageList = document.createElement('div');
+          pageList.className = 'page-list';
+          
+          // 未分類のページをソート
+          uncategorized.sort((a, b) => a.title.localeCompare(b.title)).forEach(page => {
+            const pageItem = document.createElement('a');
+            pageItem.className = 'page-item';
+            pageItem.href = `${BASE_PATH}/wiki/${page.slug}`;
+            pageItem.innerHTML = `
+              <span class="page-title">${page.title}</span>
+              <span class="page-info">更新: ${new Date(page.updatedAt).toLocaleDateString()}</span>
+            `;
+            pageList.appendChild(pageItem);
+          });
+          
+          uncategorizedSection.appendChild(uncategorizedHeader);
+          uncategorizedSection.appendChild(pageList);
+          categoryContainer.appendChild(uncategorizedSection);
+        }
+        
+        container.appendChild(categoryContainer);
+      } else {
+        // Wikiが空の場合
+        const emptyMessage = document.createElement('div');
+        emptyMessage.className = 'message-box';
+        emptyMessage.innerHTML = `
+          <p>まだWikiページが作成されていません。</p>
+          <p><a href="${BASE_PATH}/wiki/new" class="create-link">新しいページを作成</a>してみませんか？</p>
+        `;
+        container.appendChild(emptyMessage);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      
+      // エラーメッセージを表示
+      const container = document.querySelector('.wiki-container');
+      const messageBox = document.querySelector('.message-box');
+      
+      if (messageBox) {
+        messageBox.innerHTML = `
+          <p>Wikiデータの読み込みに失敗しました。</p>
+          <p>エラー: ${error.message}</p>
+          <p>しばらく経ってから再度お試しください。</p>
+        `;
+      }
+    }
+  });
+</script>
