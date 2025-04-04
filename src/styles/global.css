@@ -1,0 +1,54 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* カスタムスタイル */
+@layer base {
+  body {
+    @apply bg-light text-dark;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded transition-colors duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary/90;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary/90;
+  }
+  
+  .btn-accent {
+    @apply bg-accent text-white hover:bg-accent/90;
+  }
+}
+
+/* マークダウンの装飾 */
+.prose h2 {
+  @apply text-xl font-bold mt-6 mb-3 pb-1 border-b border-gray-200;
+}
+
+.prose h3 {
+  @apply text-lg font-bold mt-5 mb-2;
+}
+
+.prose p {
+  @apply mb-4;
+}
+
+.prose ul {
+  @apply list-disc pl-5 mb-4;
+}
+
+.prose blockquote {
+  @apply pl-4 border-l-4 border-gray-300 italic;
+}
