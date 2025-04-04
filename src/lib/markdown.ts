@@ -20,14 +20,8 @@ export function initializeMarked(): void {
   marked.use(gfmHeadingId());
   
   // シンタックスハイライトの設定
-  const markedOptions = {
-    highlight: function(code: string) {
-      // シンタックスハイライトはクライアント側で処理
-      return code;
-    }
-  };
-  
-  marked.setOptions(markedOptions);
+  // v12+ では marked.parse() に直接オプションを渡す形式に変更されているので
+  // setOptions() の使用をやめます
   
   markedInitialized = true;
 }
@@ -43,7 +37,15 @@ export function markdownToHtml(markdown: string): string {
   initializeMarked();
   
   // marked.parseはPromiseを返す可能性があるため、同期的に処理
-  const html = marked.parse(markdown, { async: false }) as string;
+  // highlight オプションはここに直接渡す
+  const html = marked.parse(markdown, { 
+    async: false,
+    highlight: function(code: string) {
+      // シンタックスハイライトはクライアント側で処理
+      return code;
+    }
+  }) as string;
+  
   return html;
 }
 
