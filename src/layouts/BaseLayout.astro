@@ -137,7 +137,9 @@ const pageTitle = title === SITE_TITLE ? title : `${title} - ${SITE_TITLE}`;
           themeConfig = JSON.parse(storedTheme);
         }
         
+        // 安全に darkMode プロパティを設定
         themeConfig.darkMode = isDarkMode;
+        
         localStorage.setItem('wiki-theme-config', JSON.stringify(themeConfig));
       } catch (e) {
         console.error('テーマ設定の保存に失敗しました', e);
