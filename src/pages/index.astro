@@ -1,0 +1,160 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, BASE_PATH } from '@/config';
+---
+
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <div class="home-container">
+    <section class="hero">
+      <h1>{SITE_TITLE}</h1>
+      <p class="tagline">{SITE_DESCRIPTION}</p>
+      <div class="action-buttons">
+        <a href={`${BASE_PATH}/wiki`} class="button primary">Wiki を見る</a>
+        <a href={`${BASE_PATH}/knowledge-graph`} class="button secondary">ナレッジグラフ</a>
+      </div>
+    </section>
+
+    <section class="features">
+      <h2>機能</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>GitHub Issuesの活用</h3>
+          <p>GitHubのIssue機能を使ってWikiページを管理。バージョン管理、コメント、ラベルなどの機能をそのまま活用できます。</p>
+        </div>
+        <div class="feature-card">
+          <h3>ゼッテルカステン機能</h3>
+          <p>双方向リンク、自動リンク生成、バックリンク表示などのナレッジベース機能を搭載。知識の整理と発見をサポートします。</p>
+        </div>
+        <div class="feature-card">
+          <h3>ナレッジグラフ</h3>
+          <p>ページ間の関連性を可視化するグラフビュー。知識のつながりや全体像を把握できます。</p>
+        </div>
+        <div class="feature-card">
+          <h3>シンプルなUI</h3>
+          <p>シンプルで使いやすいインターフェース。必要な情報にすぐにアクセスできます。</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .home-container {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .hero {
+    text-align: center;
+    padding: 4rem 0;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--color-heading);
+  }
+  
+  .tagline {
+    font-size: 1.5rem;
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .button {
+    display: inline-block;
+    padding: 0.8rem 1.6rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .button.primary {
+    background-color: var(--color-primary);
+    color: white;
+  }
+  
+  .button.primary:hover {
+    background-color: var(--color-primary-dark);
+  }
+  
+  .button.secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+  }
+  
+  .button.secondary:hover {
+    background-color: var(--color-secondary-dark);
+  }
+  
+  .features {
+    margin-top: 4rem;
+  }
+  
+  .features h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: var(--color-heading);
+  }
+  
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .feature-card {
+    background-color: var(--color-card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feature-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--color-heading);
+  }
+  
+  .feature-card p {
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+  
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+    
+    .tagline {
+      font-size: 1.2rem;
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .button {
+      width: 100%;
+      max-width: 300px;
+      text-align: center;
+    }
+  }
+</style>
