@@ -1,0 +1,459 @@
+---
+import { BASE_PATH } from '@/config';
+
+export interface Props {
+  placeholder?: string;
+  autofocus?: boolean;
+  initialValue?: string;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { 
+  placeholder = 'Wikiを検索...',
+  autofocus = false,
+  initialValue = '',
+  size = 'md'
+} = Astro.props;
+---
+
+<div class={`search-container size-${size}`}>
+  <form action={`${BASE_PATH}/search`} method="get" class="search-form" id="search-form">
+    <div class="search-input-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input 
+        type="search" 
+        name="q" 
+        id="search-input"
+        placeholder={placeholder}
+        autocomplete="off"
+        value={initialValue}
+        class="search-input"
+        aria-label="検索"
+        required
+        autofocus={autofocus}
+      />
+      {initialValue && (
+        <button type="button" class="clear-button" id="clear-search" aria-label="検索をクリア">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="clear-icon">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      )}
+      <kbd class="keyboard-shortcut-hint">/</kbd>
+    </div>
+  </form>
+  
+  <div class="search-results" id="search-results"></div>
+</div>
+
+<script>
+  // 検索フォームの要素を取得
+  const searchForm = document.getElementById('search-form') as HTMLFormElement;
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const clearButton = document.getElementById('clear-search');
+  const searchResults = document.getElementById('search-results');
+  
+  // クリアボタンのイベントリスナー
+  clearButton?.addEventListener('click', () => {
+    if (searchInput) {
+      searchInput.value = '';
+      searchInput.focus();
+      
+      // 結果をクリア
+      if (searchResults) {
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'none';
+      }
+      
+      // クリアボタンを非表示
+      clearButton.style.display = 'none';
+    }
+  });
+  
+  // 入力値の変更を監視
+  searchInput?.addEventListener('input', () => {
+    if (clearButton) {
+      clearButton.style.display = searchInput.value ? 'flex' : 'none';
+    }
+  });
+  
+  // キーボードショートカット
+  document.addEventListener('keydown', (e) => {
+    // 入力フィールドやテキストエリアにフォーカスがある場合は無視
+    if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') {
+      return;
+    }
+    
+    // / キーで検索にフォーカス
+    if (e.key === '/' && searchInput) {
+      e.preventDefault();
+      searchInput.focus();
+    }
+    
+    // Escape キーで検索をクリア
+    if (e.key === 'Escape' && searchInput && document.activeElement === searchInput) {
+      searchInput.value = '';
+      searchInput.blur();
+      
+      // 結果をクリア
+      if (searchResults) {
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'none';
+      }
+      
+      // クリアボタンを非表示
+      if (clearButton) {
+        clearButton.style.display = 'none';
+      }
+    }
+  });
+  
+  // インスタント検索の設定
+  let searchTimeout: number | null = null;
+  let minSearchLength = 2;
+  
+  searchInput?.addEventListener('input', () => {
+    const query = searchInput.value.trim();
+    
+    // タイムアウトをクリア
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+    
+    // 検索文字列が短い場合は結果をクリア
+    if (query.length < minSearchLength) {
+      if (searchResults) {
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'none';
+      }
+      return;
+    }
+    
+    // 検索を遅延実行（入力中の検索を防止）
+    searchTimeout = setTimeout(() => {
+      fetchSearchResults(query);
+    }, 300) as unknown as number;
+  });
+  
+  // 検索結果を取得
+  async function fetchSearchResults(query: string) {
+    if (!searchResults) return;
+    
+    try {
+      // 検索APIにリクエスト
+      const response = await fetch(`${BASE_PATH}/api/search?q=${encodeURIComponent(query)}`);
+      
+      if (!response.ok) {
+        throw new Error('検索リクエストに失敗しました');
+      }
+      
+      const data = await response.json();
+      
+      // 検索結果を表示
+      if (data.results && data.results.length > 0) {
+        renderSearchResults(data.results);
+        searchResults.style.display = 'block';
+      } else {
+        searchResults.innerHTML = '<div class="no-results">検索結果が見つかりませんでした</div>';
+        searchResults.style.display = 'block';
+      }
+    } catch (error) {
+      console.error('検索エラー:', error);
+      searchResults.innerHTML = '<div class="search-error">検索中にエラーが発生しました</div>';
+      searchResults.style.display = 'block';
+    }
+  }
+  
+  // 検索結果のレンダリング
+  function renderSearchResults(results: any[]) {
+    if (!searchResults) return;
+    
+    // 結果の上限
+    const maxResults = 5;
+    const limitedResults = results.slice(0, maxResults);
+    
+    // 結果をHTML形式で表示
+    let resultsHTML = '<ul class="search-results-list">';
+    
+    limitedResults.forEach((result, index) => {
+      resultsHTML += `
+        <li class="search-result-item" data-index="${index}">
+          <a href="${BASE_PATH}/wiki/${result.slug}" class="search-result-link">
+            <div class="search-result-title">${result.title}</div>
+            <div class="search-result-snippet">${result.snippet}</div>
+            ${result.labels && result.labels.length > 0 ? 
+              `<div class="search-result-labels">
+                ${result.labels.map((label: any) => 
+                  `<span class="search-result-label" style="background-color: #${label.color || 'ededed'}">${label.name}</span>`
+                ).join('')}
+              </div>` : ''
+            }
+          </a>
+        </li>
+      `;
+    });
+    
+    // 結果が多い場合、すべての結果を表示するリンクを追加
+    if (results.length > maxResults) {
+      const query = searchInput?.value || '';
+      resultsHTML += `
+        <li class="search-more-item">
+          <a href="${BASE_PATH}/search?q=${encodeURIComponent(query)}" class="search-more-link">
+            すべての結果を表示 (${results.length}件)
+          </a>
+        </li>
+      `;
+    }
+    
+    resultsHTML += '</ul>';
+    searchResults.innerHTML = resultsHTML;
+    
+    // キーボードナビゲーションを設定
+    setupKeyboardNavigation();
+  }
+  
+  // キーボードナビゲーション
+  function setupKeyboardNavigation() {
+    let currentIndex = -1;
+    const resultItems = document.querySelectorAll('.search-result-item');
+    
+    searchInput?.addEventListener('keydown', (e) => {
+      // 上下キーでナビゲーション
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (currentIndex < resultItems.length - 1) {
+          currentIndex++;
+          highlightResult(currentIndex);
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (currentIndex > 0) {
+          currentIndex--;
+          highlightResult(currentIndex);
+        }
+      } else if (e.key === 'Enter' && currentIndex >= 0) {
+        e.preventDefault();
+        const selectedLink = document.querySelector(`.search-result-item[data-index="${currentIndex}"] a`) as HTMLAnchorElement;
+        if (selectedLink) {
+          selectedLink.click();
+        }
+      }
+    });
+  }
+  
+  // 結果のハイライト
+  function highlightResult(index: number) {
+    const resultItems = document.querySelectorAll('.search-result-item');
+    
+    resultItems.forEach((item) => {
+      item.classList.remove('active');
+    });
+    
+    const activeItem = document.querySelector(`.search-result-item[data-index="${index}"]`);
+    if (activeItem) {
+      activeItem.classList.add('active');
+      // スクロールして表示
+      activeItem.scrollIntoView({ block: 'nearest' });
+    }
+  }
+</script>
+
+<style>
+  .search-container {
+    position: relative;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+  
+  .search-form {
+    width: 100%;
+  }
+  
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-text-light);
+    pointer-events: none;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 2.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-card-bg);
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: all var(--transition-speed);
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.2);
+  }
+  
+  .clear-button {
+    position: absolute;
+    right: 3rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--color-text-light);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 50%;
+    transition: all var(--transition-speed);
+  }
+  
+  .clear-button:hover {
+    color: var(--color-text);
+    background-color: var(--color-bg);
+  }
+  
+  .clear-icon {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+  
+  .keyboard-shortcut-hint {
+    position: absolute;
+    right: 0.75rem;
+    background-color: var(--color-bg);
+    color: var(--color-text-light);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+    pointer-events: none;
+  }
+  
+  /* 検索結果スタイル */
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 0.5rem;
+    z-index: 100;
+    max-height: 400px;
+    overflow-y: auto;
+    display: none;
+  }
+  
+  .search-results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .search-result-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .search-result-item:last-child {
+    border-bottom: none;
+  }
+  
+  .search-result-item.active .search-result-link {
+    background-color: var(--color-secondary);
+  }
+  
+  .search-result-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: background-color var(--transition-speed);
+  }
+  
+  .search-result-link:hover {
+    background-color: var(--color-bg);
+  }
+  
+  .search-result-title {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .search-result-snippet {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+  }
+  
+  .search-result-labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+  
+  .search-result-label {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 20px;
+    color: #333;
+    white-space: nowrap;
+  }
+  
+  .search-more-item {
+    text-align: center;
+    padding: 0.5rem;
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+  }
+  
+  .search-more-link {
+    color: var(--color-link);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  .search-more-link:hover {
+    text-decoration: underline;
+  }
+  
+  .no-results,
+  .search-error {
+    padding: 1rem;
+    text-align: center;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+  }
+  
+  /* サイズバリエーション */
+  .size-sm .search-input {
+    padding: 0.5rem 2.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .size-lg .search-input {
+    padding: 1rem 2.5rem;
+    font-size: 1.125rem;
+  }
+  
+  /* ダークモード対応 */
+  .dark-mode .search-results {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+</style>
