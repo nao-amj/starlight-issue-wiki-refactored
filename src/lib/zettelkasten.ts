@@ -24,7 +24,7 @@ export function convertWikiLinks(text: string, issues: IssueData[], baseUrl: str
   // [[ページ名]] 形式のリンクをマッチング
   const wikiLinkPattern = /\[\[(.*?)\]\]/g;
   
-  return text.replace(wikiLinkPattern, (match, pageName) => {
+  return text.replace(wikiLinkPattern, (_match, pageName) => {
     // リンク先のIssueを探す
     const targetIssue = issues.find(issue => issue.title === pageName);
     
