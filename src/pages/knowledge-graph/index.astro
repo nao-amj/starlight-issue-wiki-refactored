@@ -1,0 +1,182 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { BASE_PATH } from '@/config';
+---
+
+<BaseLayout title="ナレッジグラフ" description="Wiki間の関連性を視覚化">
+  <div class="graph-container">
+    <div class="header-section">
+      <h1>ナレッジグラフ</h1>
+      <p class="description">Wikiページ間の関連性を視覚的に表示します。クリックするとそのページに移動できます。</p>
+    </div>
+    
+    <div class="graph-content">
+      <div class="graph-controls">
+        <button id="zoom-in" class="graph-button" title="拡大">+</button>
+        <button id="zoom-out" class="graph-button" title="縮小">-</button>
+        <button id="reset-view" class="graph-button" title="リセット">↺</button>
+      </div>
+      
+      <div id="graph-view" class="graph-view">
+        <div class="loading-message">
+          <p>グラフを読み込んでいます...</p>
+        </div>
+      </div>
+      
+      <div class="graph-legend">
+        <h3>凡例</h3>
+        <div class="legend-item">
+          <span class="legend-color direct"></span>
+          <span>直接リンク</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color bidirectional"></span>
+          <span>双方向リンク</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color keyword"></span>
+          <span>キーワードマッチ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .graph-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .header-section {
+    max-width: var(--content-max-width);
+    margin: 0 auto 2rem;
+  }
+  
+  .header-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-heading);
+  }
+  
+  .description {
+    color: var(--color-text);
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .graph-content {
+    position: relative;
+    width: 100%;
+    background-color: var(--color-card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+  
+  .graph-controls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .graph-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--color-card-bg);
+    color: var(--color-text);
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+  }
+  
+  .graph-button:hover {
+    background-color: var(--color-primary);
+    color: white;
+  }
+  
+  .graph-view {
+    width: 100%;
+    height: 80vh;
+    min-height: 500px;
+    position: relative;
+  }
+  
+  .loading-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--color-text-light);
+  }
+  
+  .graph-legend {
+    background-color: var(--color-card-bg);
+    border-top: 1px solid var(--color-border);
+    padding: 1rem;
+  }
+  
+  .graph-legend h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--color-heading);
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .legend-color {
+    display: inline-block;
+    width: 30px;
+    height: 4px;
+    margin-right: 0.5rem;
+    border-radius: 2px;
+  }
+  
+  .legend-color.direct {
+    background-color: #6c8ebf;
+  }
+  
+  .legend-color.bidirectional {
+    background-color: #d85a5a;
+  }
+  
+  .legend-color.keyword {
+    background-color: #82b366;
+  }
+  
+  @media (max-width: 768px) {
+    .graph-view {
+      height: 60vh;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', async () => {
+    // ノードが存在しない場合のメッセージを表示
+    const graphView = document.getElementById('graph-view');
+    graphView.innerHTML = `
+      <div class="loading-message">
+        <p>データを取得できません</p>
+        <p>Wikiページがまだ作成されていないか、APIにアクセスできない可能性があります。</p>
+        <p><a href="${BASE_PATH}/wiki/new" style="color: var(--color-primary);">新しいページを作成</a>してみませんか？</p>
+      </div>
+    `;
+  });
+</script>
