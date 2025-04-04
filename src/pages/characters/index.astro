@@ -1,0 +1,119 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+
+// 仮のキャラクターデータ（後でコンテンツコレクションから取得するように更新）
+const charactersByCategory = {
+  main: [
+    {
+      name: "霧島 鈴音",
+      japaneseName: "きりしま りんね",
+      ability: "崩壊→創造的崩壊",
+      image: "rinne.jpg",
+      slug: "kirishima-rinne"
+    },
+    {
+      name: "白石 凛",
+      japaneseName: "しらいし りん",
+      ability: "凍結→保存",
+      image: "rin.jpg",
+      slug: "shiraishi-rin"
+    },
+    {
+      name: "風間 遥",
+      japaneseName: "かざま はるか",
+      ability: "視認",
+      image: "haruka.jpg",
+      slug: "kazama-haruka"
+    },
+    {
+      name: "桐生 陽炎",
+      japaneseName: "きりゅう かげろう",
+      ability: "共鳴",
+      image: "kagero.jpg",
+      slug: "kiryu-kagero"
+    }
+  ],
+  support: [
+    {
+      name: "神宮寺 零",
+      japaneseName: "じんぐうじ れい",
+      ability: "封印",
+      image: "rei.jpg",
+      slug: "jinguji-rei"
+    },
+    {
+      name: "七海 直",
+      japaneseName: "ななみ なお",
+      ability: "投影→クロノ・エイドス",
+      image: "nao.jpg",
+      slug: "nanami-nao"
+    }
+  ],
+  antagonist: [
+    {
+      name: "月影 アシュラ",
+      japaneseName: "つきかげ あしゅら",
+      ability: "現実改変",
+      image: "ashura.jpg",
+      slug: "tsukikage-ashura"
+    },
+    {
+      name: "鷹宮 剣",
+      japaneseName: "たかみや けん",
+      ability: "分裂",
+      image: "ken.jpg",
+      slug: "takamiya-ken"
+    }
+  ]
+};
+
+// カテゴリー名の定義
+const categories = {
+  'main': '主要キャラクター',
+  'support': 'サポートキャラクター',
+  'antagonist': '敵対勢力キャラクター'
+};
+
+const basePath = '/starlight-issue-wiki-refactored';
+---
+
+<MainLayout title="キャラクター">
+  <h1 class="text-3xl font-bold font-heading mb-8">キャラクター</h1>
+  
+  <p class="mb-8 max-w-3xl">
+    「崩壊の境界線」に登場する主要キャラクターの詳細情報です。それぞれのプロフィール、能力、ストーリーでの役割などを紹介しています。
+  </p>
+  
+  {Object.entries(categories).map(([categoryKey, categoryName]) => (
+    charactersByCategory[categoryKey] && (
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold font-heading mb-6 flex items-center">
+          <span class="w-2 h-8 bg-primary mr-3 rounded"></span>{categoryName}
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {charactersByCategory[categoryKey].map(character => (
+            <a href={`${basePath}/characters/${character.slug}`} class="block group">
+              <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300">
+                <div class="aspect-w-3 aspect-h-4 overflow-hidden">
+                  <img 
+                    src={`${basePath}/images/characters/${character.image}`} 
+                    alt={character.name} 
+                    class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-300"
+                    onerror={`this.onerror=null; this.src='${basePath}/images/character-placeholder.png'`}
+                  />
+                </div>
+                <div class="p-4">
+                  <h3 class="text-lg font-semibold text-dark">{character.name}</h3>
+                  <p class="text-sm text-gray-500">{character.japaneseName}</p>
+                  <div class="mt-2 inline-block px-2 py-1 bg-gray-100 rounded text-xs">
+                    能力: {character.ability}
+                  </div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  ))}
+</MainLayout>
