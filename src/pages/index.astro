@@ -1,160 +1,131 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import { SITE_TITLE, SITE_DESCRIPTION, BASE_PATH } from '@/config';
+import MainLayout from '../layouts/MainLayout.astro';
+
+// 仮の特集キャラクター（後でコンテンツコレクションから取得するように更新）
+const featuredCharacters = [
+  {
+    name: "霧島 鈴音",
+    japaneseName: "きりしま りんね",
+    ability: "崩壊→創造的崩壊",
+    image: "rinne.jpg",
+    slug: "kirishima-rinne"
+  },
+  {
+    name: "白石 凛",
+    japaneseName: "しらいし りん",
+    ability: "凍結→保存",
+    image: "rin.jpg",
+    slug: "shiraishi-rin"
+  },
+  {
+    name: "風間 遥",
+    japaneseName: "かざま はるか",
+    ability: "視認",
+    image: "haruka.jpg",
+    slug: "kazama-haruka"
+  },
+  {
+    name: "桐生 陽炎",
+    japaneseName: "きりゅう かげろう",
+    ability: "共鳴",
+    image: "kagero.jpg",
+    slug: "kiryu-kagero"
+  }
+];
+
+// 最新の更新情報
+const updates = [
+  { date: '2025/04/04', content: 'Wikiサイト公開' },
+  { date: '2025/04/03', content: 'キャラクター設定情報を追加' },
+  { date: '2025/04/02', content: '能力体系の詳細解説を追加' },
+];
+
+const basePath = '/starlight-issue-wiki-refactored';
 ---
 
-<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-  <div class="home-container">
-    <section class="hero">
-      <h1>{SITE_TITLE}</h1>
-      <p class="tagline">{SITE_DESCRIPTION}</p>
-      <div class="action-buttons">
-        <a href={`${BASE_PATH}/wiki`} class="button primary">Wiki を見る</a>
-        <a href={`${BASE_PATH}/knowledge-graph`} class="button secondary">ナレッジグラフ</a>
+<MainLayout title="ホーム">
+  <section class="hero mb-12 py-12 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4">崩壊の境界線</h1>
+      <p class="text-xl max-w-3xl mx-auto mb-8">
+        2082年の近未来東京を舞台に、次元の境界線が弱体化することで生まれた特殊能力者たちの物語。
+        「東京分断」事件から7年、主人公・霧島鈴音と仲間たちは、徐々に明らかになる真実と両次元の運命に立ち向かう。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href={`${basePath}/world/`} class="btn bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full">世界観を探索</a>
+        <a href={`${basePath}/characters/`} class="btn bg-secondary hover:bg-secondary/90 text-white px-6 py-2 rounded-full">キャラクターを見る</a>
+      </div>
+    </div>
+  </section>
+  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <section class="md:col-span-2">
+      <h2 class="text-2xl font-bold font-heading mb-6 flex items-center">
+        <span class="w-2 h-8 bg-primary mr-3 rounded"></span>主要カテゴリ
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <a href={`${basePath}/world/`} class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2 text-primary">世界観</h3>
+          <p class="text-gray-600">境界理論、組織、エクリプス世界など、物語の舞台設定について</p>
+        </a>
+        <a href={`${basePath}/characters/`} class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2 text-secondary">キャラクター</h3>
+          <p class="text-gray-600">霧島鈴音、風間遥、白石凛など、登場人物の詳細なプロフィール</p>
+        </a>
+        <a href={`${basePath}/abilities/`} class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2 text-accent">能力体系</h3>
+          <p class="text-gray-600">越境現象と能力の分類、レベルシステム、制御装置の解説</p>
+        </a>
+        <a href={`${basePath}/story/`} class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2 text-purple-600">ストーリー</h3>
+          <p class="text-gray-600">各巻のあらすじと重要な展開、伏線回収ポイントの解説</p>
+        </a>
       </div>
     </section>
-
-    <section class="features">
-      <h2>機能</h2>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>GitHub Issuesの活用</h3>
-          <p>GitHubのIssue機能を使ってWikiページを管理。バージョン管理、コメント、ラベルなどの機能をそのまま活用できます。</p>
-        </div>
-        <div class="feature-card">
-          <h3>ゼッテルカステン機能</h3>
-          <p>双方向リンク、自動リンク生成、バックリンク表示などのナレッジベース機能を搭載。知識の整理と発見をサポートします。</p>
-        </div>
-        <div class="feature-card">
-          <h3>ナレッジグラフ</h3>
-          <p>ページ間の関連性を可視化するグラフビュー。知識のつながりや全体像を把握できます。</p>
-        </div>
-        <div class="feature-card">
-          <h3>シンプルなUI</h3>
-          <p>シンプルで使いやすいインターフェース。必要な情報にすぐにアクセスできます。</p>
-        </div>
+    
+    <section>
+      <h2 class="text-2xl font-bold font-heading mb-6 flex items-center">
+        <span class="w-2 h-8 bg-secondary mr-3 rounded"></span>最新更新情報
+      </h2>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <ul class="space-y-4">
+          {updates.map(update => (
+            <li class="pb-3 border-b border-gray-100 last:border-0 last:pb-0">
+              <span class="text-sm text-gray-500 block">{update.date}</span>
+              <p class="font-medium">{update.content}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   </div>
-</BaseLayout>
-
-<style>
-  .home-container {
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
   
-  .hero {
-    text-align: center;
-    padding: 4rem 0;
-  }
-  
-  .hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: var(--color-heading);
-  }
-  
-  .tagline {
-    font-size: 1.5rem;
-    color: var(--color-text-light);
-    margin-bottom: 2rem;
-  }
-  
-  .action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-  
-  .button {
-    display: inline-block;
-    padding: 0.8rem 1.6rem;
-    border-radius: 8px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  
-  .button.primary {
-    background-color: var(--color-primary);
-    color: white;
-  }
-  
-  .button.primary:hover {
-    background-color: var(--color-primary-dark);
-  }
-  
-  .button.secondary {
-    background-color: var(--color-secondary);
-    color: var(--color-text);
-  }
-  
-  .button.secondary:hover {
-    background-color: var(--color-secondary-dark);
-  }
-  
-  .features {
-    margin-top: 4rem;
-  }
-  
-  .features h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    color: var(--color-heading);
-  }
-  
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-  
-  .feature-card {
-    background-color: var(--color-card-bg);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .feature-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: var(--color-heading);
-  }
-  
-  .feature-card p {
-    color: var(--color-text);
-    line-height: 1.6;
-  }
-  
-  @media (max-width: 768px) {
-    .hero h1 {
-      font-size: 2.5rem;
-    }
-    
-    .tagline {
-      font-size: 1.2rem;
-    }
-    
-    .action-buttons {
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .button {
-      width: 100%;
-      max-width: 300px;
-      text-align: center;
-    }
-  }
-</style>
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold font-heading mb-6 flex items-center">
+      <span class="w-2 h-8 bg-accent mr-3 rounded"></span>主要キャラクター
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {featuredCharacters.map(character => (
+        <a href={`${basePath}/characters/${character.slug}`} class="block group">
+          <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300">
+            <div class="aspect-w-3 aspect-h-4 overflow-hidden">
+              <img 
+                src={`${basePath}/images/characters/${character.image}`} 
+                alt={character.name} 
+                class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-300"
+                onerror={`this.onerror=null; this.src='${basePath}/images/character-placeholder.png'`}
+              />
+            </div>
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-dark">{character.name}</h3>
+              <p class="text-sm text-gray-500">{character.japaneseName}</p>
+              <div class="mt-2 inline-block px-2 py-1 bg-gray-100 rounded text-xs">
+                能力: {character.ability}
+              </div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</MainLayout>
