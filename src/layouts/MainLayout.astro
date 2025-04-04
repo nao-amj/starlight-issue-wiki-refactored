@@ -1,0 +1,147 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "崩壊の境界線の包括的なWikiサイト" } = Astro.props;
+const basePath = '/starlight-issue-wiki-refactored';
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href={`${basePath}/favicon.svg`} />
+  <meta name="generator" content={Astro.generator} />
+  <title>{title} | 崩壊の境界線 Wiki</title>
+  <meta name="description" content={description} />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen flex flex-col bg-light">
+  <header class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <a href={basePath} class="flex items-center">
+          <img src={`${basePath}/images/logo-placeholder.png`} alt="崩壊の境界線" class="h-10" onerror="this.onerror=null; this.src=`${basePath}/images/logo-placeholder.png`">
+          <span class="text-xl font-heading font-bold ml-3 text-primary">崩壊の境界線 Wiki</span>
+        </a>
+      </div>
+      
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li>
+            <a href={`${basePath}/world/`} class="text-dark hover:text-primary transition py-2 border-b-2 border-transparent hover:border-primary">
+              世界観
+            </a>
+          </li>
+          <li>
+            <a href={`${basePath}/characters/`} class="text-dark hover:text-primary transition py-2 border-b-2 border-transparent hover:border-primary">
+              キャラクター
+            </a>
+          </li>
+          <li>
+            <a href={`${basePath}/abilities/`} class="text-dark hover:text-primary transition py-2 border-b-2 border-transparent hover:border-primary">
+              能力体系
+            </a>
+          </li>
+          <li>
+            <a href={`${basePath}/story/`} class="text-dark hover:text-primary transition py-2 border-b-2 border-transparent hover:border-primary">
+              ストーリー
+            </a>
+          </li>
+          <li>
+            <a href={`${basePath}/lore/`} class="text-dark hover:text-primary transition py-2 border-b-2 border-transparent hover:border-primary">
+              設定資料
+            </a>
+          </li>
+          <li>
+            <a href={`${basePath}/tech/`} class="text-dark hover:text-primary transition py-2 border-b-2 border-transparent hover:border-primary">
+              技術設定
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="md:hidden">
+        <button id="menu-toggle" class="text-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-white z-20">
+      <div class="p-4 flex justify-end">
+        <button id="menu-close" class="text-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <ul class="flex flex-col items-center space-y-6 mt-12">
+        <li>
+          <a href={`${basePath}/world/`} class="text-dark text-xl font-medium">世界観</a>
+        </li>
+        <li>
+          <a href={`${basePath}/characters/`} class="text-dark text-xl font-medium">キャラクター</a>
+        </li>
+        <li>
+          <a href={`${basePath}/abilities/`} class="text-dark text-xl font-medium">能力体系</a>
+        </li>
+        <li>
+          <a href={`${basePath}/story/`} class="text-dark text-xl font-medium">ストーリー</a>
+        </li>
+        <li>
+          <a href={`${basePath}/lore/`} class="text-dark text-xl font-medium">設定資料</a>
+        </li>
+        <li>
+          <a href={`${basePath}/tech/`} class="text-dark text-xl font-medium">技術設定</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+  
+  <main class="flex-grow container mx-auto px-4 py-8">
+    <slot />
+  </main>
+  
+  <footer class="bg-dark text-white py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <h3 class="text-xl font-bold mb-2">崩壊の境界線 Wiki</h3>
+          <p class="text-gray-400">オリジナル作品の設定資料と世界観</p>
+        </div>
+        
+        <div class="text-center md:text-right">
+          <p>© 2025 すべての権利は作者に帰属します</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    document.getElementById('menu-toggle')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    document.getElementById('menu-close')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+  </script>
+</body>
+</html>
