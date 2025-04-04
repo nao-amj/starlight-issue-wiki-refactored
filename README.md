@@ -1,92 +1,64 @@
-# Starlight Issue Wiki
 
-GitHubのイシューをベースにしたコンテンツウィキサイト。AstroフレームワークとそのドキュメンテーションフレームワークであるStarlightを使用して構築されています。
+# 崩壊の境界線 Wiki
+
+このリポジトリは「崩壊の境界線」のオリジナル作品の公式Wikiサイトです。作品の世界観、キャラクター、能力体系、ストーリー展開などの情報を整理しています。
 
 ## 概要
 
-このプロジェクトは、GitHub上のイシュートラッカーの情報をウィキ形式で閲覧できるようにするウェブアプリケーションです。イシューにタグ付けされた情報を見やすい形で整理し、ナレッジベースとして活用することができます。
+「崩壊の境界線」は、2082年の近未来東京を舞台に、次元の境界線が弱体化することで生まれた特殊能力者たちの物語です。主人公・霧島鈴音と仲間たちの成長と、二つの次元の運命をめぐる壮大な冒険を描いています。
 
-## デモサイト
+## コンテンツ構成
 
-サイトは以下のURLで公開されています：
-https://nao-amj.github.io/starlight-issue-wiki-refactored/
+- **世界観**: 境界理論、組織、エクリプス世界について
+- **キャラクター**: 登場人物の詳細プロフィール
+- **能力体系**: 越境現象と能力の分類
+- **ストーリー**: 各巻のあらすじと展開
+- **設定資料**: 伏線、特殊アイテム、境界言語など
+- **技術設定**: CLAUDEシステム、NeXus言語などの詳細
 
-## 主な機能
+## 使用技術
 
-- GitHubイシューからのコンテンツ自動生成
-- カテゴリーとタグによるコンテンツ整理
-- レスポンシブデザイン
-- コードシンタックスハイライト
-- 全文検索機能
+このWikiサイトは以下の技術を使用しています：
 
-## 技術スタック
+- **Astro**: 高速な静的サイトジェネレーター
+- **Tailwind CSS**: ユーティリティファーストのCSSフレームワーク
+- **MDX**: インタラクティブな要素を含むMarkdownの拡張
+- **TypeScript**: 型安全なJavaScript
 
-- [Astro](https://astro.build/) - 静的サイトジェネレーター
-- [TypeScript](https://www.typescriptlang.org/) - 型安全なJavaScript
-- [GitHub Octokit](https://github.com/octokit/rest.js/) - GitHub APIクライアント
-- [Marked](https://marked.js.org/) - Markdownパーサー
-- [Shiki](https://shiki.matsu.io/) - コードシンタックスハイライター
+## 開発環境のセットアップ
 
-## ローカル開発環境のセットアップ
+1. このリポジトリをクローンします
+   ```
+   git clone https://github.com/nao-amj/starlight-issue-wiki-refactored.git
+   cd starlight-issue-wiki-refactored
+   git checkout boundary-collapse-wiki
+   ```
 
-### 前提条件
+2. 依存関係をインストールします
+   ```
+   npm install
+   ```
 
-- Node.js 18以上
-- npm 9以上
+3. 開発サーバーを起動します
+   ```
+   npm run dev
+   ```
 
-### インストール
+4. ブラウザで `http://localhost:4321` にアクセスしてサイトを表示します
 
-```bash
-# リポジトリをクローン
-git clone https://github.com/nao-amj/starlight-issue-wiki-refactored.git
-cd starlight-issue-wiki-refactored
+## プロジェクト構造
 
-# 依存関係をインストール
-npm install
-
-# 開発サーバーを起動
-npm run dev
 ```
-
-これで開発サーバーが http://localhost:4321/starlight-issue-wiki-refactored/ で起動します。
-
-## ビルドとデプロイ
-
-### 手動ビルド
-
-```bash
-# プロジェクトをビルド
-npm run build
-
-# ビルド結果をプレビュー
-npm run preview
+boundary-collapse-wiki/
+├── public/                # 静的ファイル（画像など）
+├── src/
+│   ├── components/        # 再利用可能なコンポーネント
+│   ├── layouts/           # ページレイアウト
+│   ├── content/           # Markdown/MDXコンテンツ
+│   ├── pages/             # ルーティング用のページ
+│   └── styles/            # グローバルスタイル
 ```
-
-ビルドしたファイルは `dist` ディレクトリに出力されます。
-
-### 自動デプロイ
-
-このプロジェクトはGitHub Actionsを使用して自動デプロイが設定されています。`main`ブランチにプッシュすると、以下のフローが実行されます：
-
-1. コードをチェックアウト
-2. Node.jsと依存関係をセットアップ
-3. プロジェクトをビルド
-4. ビルド結果をGitHub Pagesにデプロイ
-
-## カスタマイズ
-
-サイトをカスタマイズする場合は、以下のファイルを編集してください：
-
-- `astro.config.mjs` - サイト全体の設定
-- `src/components/` - UIコンポーネント
-- `src/layouts/` - ページレイアウト
-- `src/pages/` - コンテンツページ
-- `src/styles/` - CSSスタイル
 
 ## ライセンス
 
-このプロジェクトは [MIT License](LICENSE) の下で公開されています。
-
-## コントリビューション
-
-バグ報告や機能追加のリクエストは、GitHubのイシュートラッカーを通じてお願いします。プルリクエストも歓迎します。
+このプロジェクトの内容はオリジナル作品であり、すべての権利は作者に帰属します。許可なく商用利用することはできません。
