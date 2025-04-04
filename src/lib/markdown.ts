@@ -19,10 +19,6 @@ export function initializeMarked(): void {
   // gfmHeadingIdプラグインを設定
   marked.use(gfmHeadingId());
   
-  // シンタックスハイライトの設定
-  // v12+ では marked.parse() に直接オプションを渡す形式に変更されているので
-  // setOptions() の使用をやめます
-  
   markedInitialized = true;
 }
 
@@ -36,16 +32,8 @@ export function markdownToHtml(markdown: string): string {
   
   initializeMarked();
   
-  // marked.parseはPromiseを返す可能性があるため、同期的に処理
-  // highlight オプションはここに直接渡す
-  const html = marked.parse(markdown, { 
-    async: false,
-    highlight: function(code: string) {
-      // シンタックスハイライトはクライアント側で処理
-      return code;
-    }
-  }) as string;
-  
+  // marked v12 では型に互換性の問題があるため、型アサーションを使用
+  const html = marked.parse(markdown) as string;
   return html;
 }
 
