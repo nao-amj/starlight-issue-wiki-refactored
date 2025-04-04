@@ -50,10 +50,9 @@ const {
   <div class="search-results" id="search-results"></div>
 </div>
 
-<script>
+<script define:vars={{ BASE_PATH }}>
   // 検索フォームの要素を取得
-  const searchForm = document.getElementById('search-form') as HTMLFormElement;
-  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const searchInput = document.getElementById('search-input');
   const clearButton = document.getElementById('clear-search');
   const searchResults = document.getElementById('search-results');
   
@@ -113,7 +112,7 @@ const {
   });
   
   // インスタント検索の設定
-  let searchTimeout: number | null = null;
+  let searchTimeout = null;
   let minSearchLength = 2;
   
   searchInput?.addEventListener('input', () => {
@@ -136,11 +135,11 @@ const {
     // 検索を遅延実行（入力中の検索を防止）
     searchTimeout = setTimeout(() => {
       fetchSearchResults(query);
-    }, 300) as unknown as number;
+    }, 300);
   });
   
   // 検索結果を取得
-  async function fetchSearchResults(query: string) {
+  async function fetchSearchResults(query) {
     if (!searchResults) return;
     
     try {
@@ -169,7 +168,7 @@ const {
   }
   
   // 検索結果のレンダリング
-  function renderSearchResults(results: any[]) {
+  function renderSearchResults(results) {
     if (!searchResults) return;
     
     // 結果の上限
@@ -187,7 +186,7 @@ const {
             <div class="search-result-snippet">${result.snippet}</div>
             ${result.labels && result.labels.length > 0 ? 
               `<div class="search-result-labels">
-                ${result.labels.map((label: any) => 
+                ${result.labels.map((label) => 
                   `<span class="search-result-label" style="background-color: #${label.color || 'ededed'}">${label.name}</span>`
                 ).join('')}
               </div>` : ''
@@ -237,7 +236,7 @@ const {
         }
       } else if (e.key === 'Enter' && currentIndex >= 0) {
         e.preventDefault();
-        const selectedLink = document.querySelector(`.search-result-item[data-index="${currentIndex}"] a`) as HTMLAnchorElement;
+        const selectedLink = document.querySelector(`.search-result-item[data-index="${currentIndex}"] a`);
         if (selectedLink) {
           selectedLink.click();
         }
@@ -246,7 +245,7 @@ const {
   }
   
   // 結果のハイライト
-  function highlightResult(index: number) {
+  function highlightResult(index) {
     const resultItems = document.querySelectorAll('.search-result-item');
     
     resultItems.forEach((item) => {
