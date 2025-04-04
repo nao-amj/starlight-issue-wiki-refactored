@@ -130,13 +130,13 @@ export function autoLinkKeywords(
  * 現在のページに対するバックリンクを収集する
  * @param currentIssue - 現在のIssue
  * @param allIssues - すべてのIssue
- * @param baseUrl - ベースURL
+ * @param _baseUrl - ベースURL
  * @returns バックリンクの配列
  */
 export function collectBacklinks(
   currentIssue: IssueData,
   allIssues: IssueData[],
-  baseUrl: string
+  _baseUrl: string
 ): Backlink[] {
   const backlinks: Backlink[] = [];
   const currentTitle = currentIssue.title;
