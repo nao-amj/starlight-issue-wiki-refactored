@@ -1,0 +1,335 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION, BASE_PATH, REPO_URL } from '@/config';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  noIndex?: boolean;
+}
+
+const { 
+  title = SITE_TITLE, 
+  description = SITE_DESCRIPTION,
+  noIndex = false
+} = Astro.props;
+
+const pageTitle = title === SITE_TITLE ? title : `${title} - ${SITE_TITLE}`;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{pageTitle}</title>
+  <meta name="description" content={description}>
+  
+  <!-- ファビコン -->
+  <link rel="icon" type="image/svg+xml" href={`${BASE_PATH}/favicon.svg`}>
+  
+  <!-- 検索エンジンインデックス設定 -->
+  {noIndex && <meta name="robots" content="noindex">}
+  
+  <!-- 基本スタイル -->
+  <link rel="stylesheet" href={`${BASE_PATH}/styles/global.css`}>
+  <link rel="stylesheet" href={`${BASE_PATH}/styles/theme.css`}>
+  
+  <!-- テーマ初期化スクリプト -->
+  <script>
+    // システムのダークモード設定を取得
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // ローカルストレージからテーマ設定を取得
+    const storedTheme = localStorage.getItem('wiki-theme-config');
+    let isDarkMode = prefersDark;
+    
+    if (storedTheme) {
+      try {
+        const themeConfig = JSON.parse(storedTheme);
+        isDarkMode = themeConfig.darkMode;
+      } catch (e) {
+        console.error('テーマ設定の解析に失敗しました', e);
+      }
+    }
+    
+    // ダークモードを適用
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+  
+  <!-- スロット: 追加のヘッド要素 -->
+  <slot name="head" />
+</head>
+<body>
+  <header id="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href={BASE_PATH + "/"}>
+            <span class="logo-text">{SITE_TITLE}</span>
+          </a>
+        </div>
+        
+        <nav class="main-nav">
+          <a href={BASE_PATH + "/"} class={Astro.url.pathname === BASE_PATH || Astro.url.pathname === BASE_PATH + '/' ? 'active' : ''}>ホーム</a>
+          <a href={`${BASE_PATH}/wiki`} class={Astro.url.pathname.includes('/wiki') ? 'active' : ''}>Wiki</a>
+          <a href={`${BASE_PATH}/knowledge-graph`} class={Astro.url.pathname.includes('/knowledge-graph') ? 'active' : ''}>グラフ</a>
+          <a href={REPO_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+        
+        <div class="header-actions">
+          <slot name="header-actions" />
+          
+          <!-- テーマ切り替えボタン -->
+          <button id="theme-toggle" aria-label="テーマ切り替え" title="テーマ切り替え">
+            <svg class="light-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="dark-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer id="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <p>&copy; 2025 {SITE_TITLE}</p>
+          <p>Powered by <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a> &amp; <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub Issues</a></p>
+        </div>
+        <div class="footer-links">
+          <a href={`${BASE_PATH}/about`}>このサイトについて</a>
+          <a href={REPO_URL + '/issues/new'} target="_blank" rel="noopener noreferrer">新しいページを作成</a>
+          <a href={`${BASE_PATH}/data-management`}>データ管理</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- テーマ切り替えスクリプト -->
+  <script>
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const isDarkMode = document.documentElement.classList.toggle('dark-mode');
+      
+      // 設定を保存
+      try {
+        const storedTheme = localStorage.getItem('wiki-theme-config');
+        let themeConfig = {};
+        
+        if (storedTheme) {
+          themeConfig = JSON.parse(storedTheme);
+        }
+        
+        themeConfig.darkMode = isDarkMode;
+        localStorage.setItem('wiki-theme-config', JSON.stringify(themeConfig));
+      } catch (e) {
+        console.error('テーマ設定の保存に失敗しました', e);
+      }
+    });
+  </script>
+
+  <!-- スロット: 追加のスクリプト -->
+  <slot name="scripts" />
+</body>
+</html>
+
+<style is:global>
+  /* ベースレイアウトのグローバルスタイル */
+  :root {
+    /* サイズ変数 */
+    --header-height: 60px;
+    --footer-height: 80px;
+    --sidebar-width: 250px;
+    --content-max-width: 900px;
+    
+    /* アニメーション */
+    --transition-speed: 0.2s;
+  }
+  
+  /* コンテナ */
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  /* ヘッダー */
+  #main-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-header-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+  }
+  
+  .logo a {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .main-nav {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .main-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: background-color var(--transition-speed);
+  }
+  
+  .main-nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .main-nav a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+  }
+  
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  #theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color var(--transition-speed);
+  }
+  
+  #theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  #theme-toggle svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  
+  .light-icon {
+    display: none;
+  }
+  
+  .dark-icon {
+    display: block;
+  }
+  
+  .dark-mode .light-icon {
+    display: block;
+  }
+  
+  .dark-mode .dark-icon {
+    display: none;
+  }
+  
+  /* メイン */
+  main {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+    padding: 2rem 0;
+  }
+  
+  /* フッター */
+  #main-footer {
+    background-color: var(--color-sidebar-bg);
+    border-top: 1px solid var(--color-border);
+    padding: 1.5rem 0;
+    margin-top: 2rem;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .footer-info p {
+    margin: 0.2rem 0;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .footer-links a {
+    color: var(--color-link);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+  
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    .header-content {
+      flex-direction: column;
+      height: auto;
+      padding: 1rem 0;
+    }
+    
+    .logo {
+      margin-bottom: 0.5rem;
+    }
+    
+    .main-nav {
+      width: 100%;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    
+    .main-nav a {
+      padding: 0.4rem 0.6rem;
+      font-size: 0.9rem;
+    }
+    
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 1.5rem;
+    }
+  }
+</style>
