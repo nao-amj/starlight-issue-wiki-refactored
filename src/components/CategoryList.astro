@@ -1,0 +1,215 @@
+---
+import { IssueData, Category } from '@/types/github';
+import { extractCategories } from '@/lib/github';
+import { BASE_PATH } from '@/config';
+
+export interface Props {
+  issues: IssueData[];
+  activeCategoryId?: string;
+  showCounts?: boolean;
+  maxItems?: number;
+  layout?: 'grid' | 'list' | 'inline';
+  showAllLink?: boolean;
+}
+
+const { 
+  issues, 
+  activeCategoryId = '',
+  showCounts = true,
+  maxItems = 0,
+  layout = 'list',
+  showAllLink = true
+} = Astro.props;
+
+// カテゴリーの抽出
+const categories = extractCategories(issues);
+
+// 表示するカテゴリー
+const displayCategories = maxItems > 0 ? categories.slice(0, maxItems) : categories;
+---
+
+<div class={`categories-container layout-${layout}`}>
+  {layout === 'list' && <h3 class="categories-title">カテゴリー</h3>}
+  
+  <ul class={`categories-list layout-${layout}`}>
+    {showAllLink && (
+      <li class="category-item">
+        <a 
+          href={`${BASE_PATH}/category/all`}
+          class={activeCategoryId === 'all' ? 'active' : ''}
+        >
+          <span class="category-name">すべて</span>
+          {showCounts && <span class="category-count">{issues.length}</span>}
+        </a>
+      </li>
+    )}
+    
+    {displayCategories.map((category: Category) => (
+      <li class="category-item">
+        <a 
+          href={`${BASE_PATH}/category/${category.id}`}
+          class={activeCategoryId === category.id ? 'active' : ''}
+          style={`--category-color: #${category.color};`}
+        >
+          <span class="category-name">{category.name}</span>
+          {showCounts && <span class="category-count">{category.count}</span>}
+        </a>
+      </li>
+    ))}
+  </ul>
+  
+  {maxItems > 0 && categories.length > maxItems && (
+    <div class="more-link-container">
+      <a href={`${BASE_PATH}/category/all`} class="more-link">すべてのカテゴリーを表示</a>
+    </div>
+  )}
+</div>
+
+<style>
+  .categories-container {
+    margin-bottom: 1.5rem;
+  }
+  
+  .categories-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+  
+  .categories-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* リスト表示 */
+  .layout-list .categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .layout-list .category-item a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    color: var(--color-text);
+    border-radius: 4px;
+    transition: background-color var(--transition-speed);
+    border-left: 3px solid transparent;
+  }
+  
+  .layout-list .category-item a:hover {
+    background-color: var(--color-bg);
+    border-left-color: var(--category-color, var(--color-primary));
+  }
+  
+  .layout-list .category-item a.active {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    font-weight: 500;
+    border-left-color: var(--category-color, var(--color-primary));
+  }
+  
+  /* グリッド表示 */
+  .layout-grid .categories-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .layout-grid .category-item a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    text-decoration: none;
+    color: var(--color-text);
+    background-color: var(--color-card-bg);
+    border-radius: 8px;
+    border-top: 3px solid var(--category-color, var(--color-primary));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    height: 100%;
+  }
+  
+  .layout-grid .category-item a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .layout-grid .category-item a.active {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+  
+  .layout-grid .category-name {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+  
+  .layout-grid .category-count {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    background-color: var(--color-bg);
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+  }
+  
+  /* インライン表示 */
+  .layout-inline .categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .layout-inline .category-item a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    text-decoration: none;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: background-color var(--transition-speed);
+    border-left: 2px solid var(--category-color, var(--color-primary));
+  }
+  
+  .layout-inline .category-item a:hover {
+    background-color: var(--color-card-bg);
+  }
+  
+  .layout-inline .category-item a.active {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+  
+  .layout-inline .category-count {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+  }
+  
+  /* その他スタイル */
+  .more-link-container {
+    margin-top: 1rem;
+    text-align: right;
+  }
+  
+  .more-link {
+    font-size: 0.9rem;
+    color: var(--color-link);
+    text-decoration: none;
+  }
+  
+  .more-link:hover {
+    text-decoration: underline;
+  }
+</style>
