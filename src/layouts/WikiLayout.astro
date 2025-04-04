@@ -1,0 +1,206 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { IssueData } from '@/types/github';
+import { generateSlug } from '@/lib/github';
+import { BASE_PATH } from '@/config';
+
+export interface Props {
+  title: string;
+  description?: string;
+  currentIssueNumber?: number;
+  issues: IssueData[];
+}
+
+const { 
+  title, 
+  description, 
+  currentIssueNumber = -1,
+  issues
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="wiki-layout">
+    <aside class="wiki-sidebar">
+      <div class="sidebar-section">
+        <h2>Wiki Pages</h2>
+        <nav class="wiki-nav">
+          <ul>
+            <li>
+              <a 
+                href={`${BASE_PATH}/wiki`} 
+                class={Astro.url.pathname === `${BASE_PATH}/wiki` || Astro.url.pathname === `${BASE_PATH}/wiki/` ? 'active' : ''}
+              >
+                すべてのページ
+              </a>
+            </li>
+            <li>
+              <a 
+                href={`${BASE_PATH}/wiki/welcome`} 
+                class={Astro.url.pathname === `${BASE_PATH}/wiki/welcome` ? 'active' : ''}
+              >
+                はじめに
+              </a>
+            </li>
+            {issues.map(issue => {
+              // welcomeページは上で表示済み
+              if (issue.number === 1) return null;
+              
+              // スラッグを生成
+              const slug = generateSlug(issue.title);
+              
+              return (
+                <li>
+                  <a 
+                    href={`${BASE_PATH}/wiki/${slug}`} 
+                    class={issue.number === currentIssueNumber ? 'active' : ''}
+                  >
+                    {issue.title}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+      
+      <!-- サイドバー追加セクション用スロット -->
+      <slot name="sidebar" />
+      
+      <div class="sidebar-section sidebar-actions">
+        <a 
+          href="https://github.com/nao-amj/starlight-issue-wiki-refactored/issues/new" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="new-page-btn"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          新しいページを作成
+        </a>
+      </div>
+    </aside>
+    
+    <div class="wiki-content-area">
+      <slot />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .wiki-layout {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    gap: 2rem;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+  }
+  
+  .wiki-sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+    max-height: calc(100vh - var(--header-height) - 4rem);
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    scrollbar-width: thin;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 2rem;
+    background-color: var(--color-sidebar-bg);
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .sidebar-section h2 {
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+  
+  .wiki-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .wiki-nav li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .wiki-nav a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    color: var(--color-text);
+    border-radius: 4px;
+    transition: background-color var(--transition-speed);
+    font-size: 0.95rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .wiki-nav a:hover {
+    background-color: var(--color-bg);
+  }
+  
+  .wiki-nav a.active {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+  
+  .sidebar-actions {
+    margin-top: 2rem;
+  }
+  
+  .new-page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--color-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color var(--transition-speed);
+  }
+  
+  .new-page-btn:hover {
+    background-color: var(--color-primary-dark);
+  }
+  
+  .new-page-btn .icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .wiki-content-area {
+    width: 100%;
+    min-width: 0; /* グリッドアイテムのオーバーフロー防止 */
+  }
+  
+  /* レスポンシブ対応 */
+  @media (max-width: 768px) {
+    .wiki-layout {
+      grid-template-columns: 1fr;
+      padding: 0 1rem;
+    }
+    
+    .wiki-sidebar {
+      position: static;
+      max-height: none;
+      margin-bottom: 2rem;
+    }
+  }
+</style>
