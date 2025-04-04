@@ -1,0 +1,393 @@
+/* グローバルスタイル */
+
+/* リセット */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+/* 基本スタイル */
+body {
+  font-family: var(--font-family, system-ui, sans-serif);
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-size: 16px;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 見出し */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 2rem 0 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-size: 1.125rem;
+}
+
+h5, h6 {
+  font-size: 1rem;
+}
+
+/* リンク */
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+/* コンテンツカード */
+.card {
+  background-color: var(--color-card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ボタン */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary-dark);
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
+}
+
+/* フォーム要素 */
+input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-card-bg);
+  color: var(--color-text);
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* ユーティリティクラス */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-1 {
+  gap: 0.25rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+/* Wiki関連スタイル */
+.wiki-header {
+  margin-bottom: 2rem;
+}
+
+.wiki-title {
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.label {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.wiki-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--color-text-light);
+  margin-bottom: 1rem;
+}
+
+.wiki-meta time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.wiki-content {
+  line-height: 1.7;
+}
+
+.wiki-content p {
+  margin-bottom: 1rem;
+}
+
+.wiki-content ul, .wiki-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.wiki-content li {
+  margin-bottom: 0.5rem;
+}
+
+.wiki-content blockquote {
+  border-left: 4px solid var(--color-border);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: var(--color-text-light);
+}
+
+.wiki-content pre {
+  background-color: var(--color-code-bg);
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.wiki-content code {
+  font-family: monospace;
+  background-color: var(--color-code-bg);
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.wiki-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+.wiki-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+.wiki-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.wiki-content th, .wiki-content td {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+}
+
+.wiki-content th {
+  background-color: var(--color-bg);
+  font-weight: 600;
+}
+
+/* リンクのスタイル */
+.wiki-content a {
+  color: var(--color-link);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--color-link);
+  transition: all 0.2s;
+}
+
+.wiki-content a:hover {
+  border-bottom: 1px solid var(--color-link);
+}
+
+/* Wiki特殊リンクスタイル */
+.wiki-link {
+  border-bottom: 1px solid var(--color-link) !important;
+}
+
+.wiki-link-new {
+  color: var(--color-link-new);
+  border-bottom: 1px dashed var(--color-link-new) !important;
+}
+
+.keyword-link {
+  background-color: rgba(var(--color-primary-rgb), 0.08);
+  border-radius: 3px;
+  padding: 0 3px;
+  border-bottom: none !important;
+}
+
+.keyword-link:hover {
+  background-color: rgba(var(--color-primary-rgb), 0.15);
+}
+
+.label-link {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* バックリンクスタイル */
+.backlink-item {
+  padding: 0.75rem;
+  border-left: 3px solid var(--color-border);
+  margin-bottom: 0.75rem;
+  border-radius: 0 4px 4px 0;
+  background-color: var(--color-bg);
+  transition: all 0.2s;
+}
+
+.backlink-item:hover {
+  border-left-color: var(--color-primary);
+  background-color: var(--color-card-bg);
+}
+
+.backlink-item.bidirectional {
+  border-left-color: var(--color-primary);
+}
+
+.backlink-context {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-top: 0.25rem;
+}
+
+/* 検索関連スタイル */
+.search-highlight {
+  background-color: rgba(var(--color-primary-rgb), 0.2);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.35rem;
+  }
+  
+  h3 {
+    font-size: 1.15rem;
+  }
+  
+  .container {
+    padding: 0 0.75rem;
+  }
+}
