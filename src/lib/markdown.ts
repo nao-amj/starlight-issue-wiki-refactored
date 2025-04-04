@@ -20,7 +20,7 @@ export function initializeMarked(): void {
   marked.use(gfmHeadingId());
   
   // シンタックスハイライトの設定
-  const markedOptions: marked.MarkedOptions = {
+  const markedOptions: marked.MarkedExtension = {
     highlight: function(code: string) {
       // シンタックスハイライトはクライアント側で処理
       return code;
