@@ -1,7 +1,7 @@
 /**
  * サイト全体の設定ファイル
  */
-import { ZettelkastenConfig } from '@/types/zettelkasten';
+import type { ZettelkastenConfig } from '@/types/zettelkasten';
 
 // ベースパスの設定
 export const BASE_PATH = import.meta.env.BASE_URL || '/starlight-issue-wiki-refactored';
