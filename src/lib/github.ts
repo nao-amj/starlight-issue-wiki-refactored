@@ -2,7 +2,7 @@
  * GitHub APIとの通信を処理するモジュール
  */
 import { REPO_OWNER, REPO_NAME, CACHE_TTL, SOURCE_REPO_OWNER, SOURCE_REPO_NAME } from '@/config';
-import type { IssueData, Label, Comment } from '@/types/github';
+import type { IssueData, Comment } from '@/types/github';
 
 // キャッシュオブジェクト
 interface CacheStore {
@@ -215,13 +215,13 @@ export function findIssueBySlug(issues: IssueData[], slug: string): IssueData | 
 // スラッグを生成する関数（改良版）
 export function generateSlug(title: string): string {
   // タイトルに日本語が含まれるか、または空のスラッグになる場合
-  if (/[\\u3000-\\u303f\\u3040-\\u309f\\u30a0-\\u30ff\\uff00-\\uff9f\\u4e00-\\u9faf\\u3400-\\u4dbf]/.test(title) || 
-      title.replace(/[^\\w\\s-]/g, '').trim() === '') {
+  if (/[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/.test(title) || 
+      title.replace(/[^\w\s-]/g, '').trim() === '') {
     // 基本スラッグを生成（日本語文字を保持）
     let baseSlug = title
       .toLowerCase()
-      .replace(/[^\\w\\s\\u3000-\\u303f\\u3040-\\u309f\\u30a0-\\u30ff\\uff00-\\uff9f\\u4e00-\\u9faf\\u3400-\\u4dbf-]/g, '')
-      .replace(/\\s+/g, '-')
+      .replace(/[^\w\s\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf-]/g, '')
+      .replace(/\s+/g, '-')
       .replace(/^-+|-+$/g, '');
       
     // 空のスラッグになる場合は、\"issue\"という文字を追加
@@ -234,8 +234,8 @@ export function generateSlug(title: string): string {
   
   // 英数字のみのタイトルの場合は従来の処理
   return title.toLowerCase()
-    .replace(/[^\\w\\s-]/g, '')
-    .replace(/\\s+/g, '-')
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
     .replace(/^-+|-+$/g, '');
 }
 
