@@ -20,12 +20,14 @@ export function initializeMarked(): void {
   marked.use(gfmHeadingId());
   
   // シンタックスハイライトの設定
-  marked.setOptions({
-    highlight: function(code, lang) {
+  const markedOptions: marked.MarkedOptions = {
+    highlight: function(code: string) {
       // シンタックスハイライトはクライアント側で処理
       return code;
     }
-  });
+  };
+  
+  marked.setOptions(markedOptions);
   
   markedInitialized = true;
 }
@@ -40,7 +42,9 @@ export function markdownToHtml(markdown: string): string {
   
   initializeMarked();
   
-  return marked.parse(markdown);
+  // marked.parseはPromiseを返す可能性があるため、同期的に処理
+  const html = marked.parse(markdown, { async: false }) as string;
+  return html;
 }
 
 /**
