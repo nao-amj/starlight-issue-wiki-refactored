@@ -1,0 +1,33 @@
+{
+  "name": "gitwiki-hub",
+  "type": "module",
+  "version": "0.2.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "lint": "eslint --ext .js,.ts,.astro src",
+    "format": "prettier --write src/**/*.{js,ts,astro}"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.5.9",
+    "@astrojs/vercel": "^7.3.1",
+    "@octokit/rest": "^21.0.0",
+    "astro": "^4.7.5",
+    "date-fns": "^3.0.0",
+    "marked": "^12.0.1",
+    "marked-gfm-heading-id": "^3.1.3",
+    "shiki": "^1.0.0",
+    "typescript": "^5.4.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-astro": "^0.31.0",
+    "prettier": "^3.1.0",
+    "prettier-plugin-astro": "^0.12.0"
+  }
+}
