@@ -1,0 +1,140 @@
+/* テーマ設定用CSS変数 */
+
+:root {
+  /* ベースカラー */
+  --color-primary: #4d1a9e;
+  --color-primary-rgb: 77, 26, 158;
+  --color-primary-dark: #3b1578;
+  --color-secondary: #f0e6ff;
+  --color-secondary-dark: #d9c4ff;
+  
+  /* 背景と文字色 */
+  --color-bg: #f9f9f9;
+  --color-text: #333333;
+  --color-text-light: #666666;
+  --color-border: #eeeeee;
+  
+  /* コンポーネントカラー */
+  --color-card-bg: #ffffff;
+  --color-sidebar-bg: #ffffff;
+  --color-header-bg: var(--color-primary);
+  --color-code-bg: #f5f5f5;
+  
+  /* リンクカラー */
+  --color-link: var(--color-primary);
+  --color-link-hover: var(--color-primary-dark);
+  --color-link-new: #e95420;
+  
+  /* フォント設定 */
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  
+  /* アニメーション */
+  --transition-speed: 0.2s;
+}
+
+/* ダークモード */
+.dark-mode {
+  /* ベースカラー - ダークモード */
+  --color-primary: #a989ff;
+  --color-primary-rgb: 169, 137, 255;
+  --color-primary-dark: #8f70e6;
+  --color-secondary: #3a2a5c;
+  --color-secondary-dark: #2d2147;
+  
+  /* 背景と文字色 - ダークモード */
+  --color-bg: #1a1a1a;
+  --color-text: #e0e0e0;
+  --color-text-light: #a0a0a0;
+  --color-border: #444444;
+  
+  /* コンポーネントカラー - ダークモード */
+  --color-card-bg: #2a2a2a;
+  --color-sidebar-bg: #252525;
+  --color-header-bg: #141414;
+  --color-code-bg: #333333;
+  
+  /* リンクカラー - ダークモード */
+  --color-link: var(--color-primary);
+  --color-link-hover: var(--color-primary-dark);
+  --color-link-new: #ff8c59;
+}
+
+/* ハイコントラストモード（アクセシビリティ対応） */
+@media (prefers-contrast: high) {
+  :root {
+    --color-primary: #0000cc;
+    --color-primary-rgb: 0, 0, 204;
+    --color-primary-dark: #000099;
+    --color-secondary: #e6e6ff;
+    --color-text: #000000;
+    --color-border: #666666;
+    --color-link: #0000ee;
+    --color-link-hover: #0000aa;
+    --color-link-new: #cc0000;
+  }
+  
+  .dark-mode {
+    --color-primary: #99ccff;
+    --color-primary-rgb: 153, 204, 255;
+    --color-primary-dark: #6699ff;
+    --color-secondary: #333366;
+    --color-text: #ffffff;
+    --color-border: #999999;
+    --color-link: #99ccff;
+    --color-link-hover: #ccddff;
+    --color-link-new: #ff9999;
+  }
+}
+
+/* 印刷用スタイル */
+@media print {
+  :root {
+    --color-primary: #000000;
+    --color-primary-rgb: 0, 0, 0;
+    --color-secondary: #ffffff;
+    --color-bg: #ffffff;
+    --color-text: #000000;
+    --color-border: #aaaaaa;
+    --color-card-bg: #ffffff;
+    --color-sidebar-bg: #ffffff;
+    --color-link: #000000;
+    --color-link-hover: #000000;
+  }
+  
+  /* 印刷時にリンクのURLを表示 */
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+  
+  /* 印刷に不要な要素を非表示 */
+  .no-print,
+  #main-header,
+  #main-footer,
+  .wiki-sidebar,
+  .search-container,
+  .edit-links,
+  .sidebar-actions {
+    display: none !important;
+  }
+  
+  /* 印刷レイアウトの調整 */
+  .wiki-layout {
+    display: block !important;
+  }
+  
+  .wiki-content-area {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* ページブレーク設定 */
+  h1, h2, h3 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+  
+  table, figure, blockquote {
+    page-break-inside: avoid;
+  }
+}

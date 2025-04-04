@@ -1,0 +1,345 @@
+<!DOCTYPE html><html lang="ja"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Wiki - GitWiki Hub</title><meta name="description" content="Wikiページ一覧"><!-- ファビコン --><link rel="icon" type="image/svg+xml" href="/starlight-issue-wiki-refactored/favicon.svg"><!-- 検索エンジンインデックス設定 --><!-- 基本スタイル --><link rel="stylesheet" href="/starlight-issue-wiki-refactored/styles/global.css"><link rel="stylesheet" href="/starlight-issue-wiki-refactored/styles/theme.css"><!-- テーマ初期化スクリプト --><!-- スロット: 追加のヘッド要素 --><link rel="stylesheet" href="/starlight-issue-wiki-refactored/_astro/index.caec0a08.css" />
+<style>:root{--header-height: 60px;--footer-height: 80px;--sidebar-width: 250px;--content-max-width: 900px;--transition-speed: .2s}.container{width:100%;max-width:1200px;margin:0 auto;padding:0 1rem}#main-header{position:sticky;top:0;z-index:100;background-color:var(--color-header-bg);box-shadow:0 2px 4px #0000001a}.header-content{display:flex;align-items:center;justify-content:space-between;height:var(--header-height)}.logo a{display:flex;align-items:center;color:#fff;text-decoration:none;font-size:1.2rem;font-weight:600}.main-nav{display:flex;gap:1rem}.main-nav a{color:#fff;text-decoration:none;padding:.5rem .8rem;border-radius:4px;transition:background-color var(--transition-speed)}.main-nav a:hover{background-color:#ffffff1a}.main-nav a.active{background-color:#fff3;font-weight:500}.header-actions{display:flex;align-items:center;gap:.5rem}#theme-toggle{background:none;border:none;cursor:pointer;color:#fff;padding:.5rem;border-radius:50%;transition:background-color var(--transition-speed)}#theme-toggle:hover{background-color:#ffffff1a}#theme-toggle svg{width:1.2rem;height:1.2rem}.light-icon{display:none}.dark-icon,.dark-mode .light-icon{display:block}.dark-mode .dark-icon{display:none}main{min-height:calc(100vh - var(--header-height) - var(--footer-height));padding:2rem 0}#main-footer{background-color:var(--color-sidebar-bg);border-top:1px solid var(--color-border);padding:1.5rem 0;margin-top:2rem}.footer-content{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem}.footer-info p{margin:.2rem 0;color:var(--color-text-light);font-size:.9rem}.footer-links{display:flex;flex-wrap:wrap;gap:1rem}.footer-links a{color:var(--color-link);text-decoration:none;font-size:.9rem}.footer-links a:hover{text-decoration:underline}@media (max-width: 768px){.header-content{flex-direction:column;height:auto;padding:1rem 0}.logo{margin-bottom:.5rem}.main-nav{width:100%;justify-content:space-between;margin-bottom:.5rem}.main-nav a{padding:.4rem .6rem;font-size:.9rem}.footer-content{flex-direction:column;text-align:center;gap:1.5rem}}
+</style>
+<link rel="stylesheet" href="/starlight-issue-wiki-refactored/_astro/index.2df54c39.css" /><script type="module">document.getElementById("theme-toggle")?.addEventListener("click",()=>{const e=document.documentElement.classList.toggle("dark-mode");try{const t=localStorage.getItem("wiki-theme-config");let o={};t&&(o=JSON.parse(t)),o.darkMode=e,localStorage.setItem("wiki-theme-config",JSON.stringify(o))}catch(t){console.error("テーマ設定の保存に失敗しました",t)}});const s=window.matchMedia("(prefers-color-scheme: dark)").matches,c=localStorage.getItem("wiki-theme-config");let r=s;if(c)try{r=JSON.parse(c).darkMode}catch(e){console.error("テーマ設定の解析に失敗しました",e)}r&&document.documentElement.classList.add("dark-mode");
+</script></head> <body> <header id="main-header"> <div class="container"> <div class="header-content"> <div class="logo"> <a href="/starlight-issue-wiki-refactored/"> <span class="logo-text">GitWiki Hub</span> </a> </div> <nav class="main-nav"> <a href="/starlight-issue-wiki-refactored/" class="">ホーム</a> <a href="/starlight-issue-wiki-refactored/wiki" class="active">Wiki</a> <a href="/starlight-issue-wiki-refactored/knowledge-graph" class="">グラフ</a> <a href="https://github.com/nao-amj/starlight-issue-wiki-refactored" target="_blank" rel="noopener noreferrer">GitHub</a> </nav> <div class="header-actions">  <!-- テーマ切り替えボタン --> <button id="theme-toggle" aria-label="テーマ切り替え" title="テーマ切り替え"> <svg class="light-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="12" cy="12" r="5"></circle> <line x1="12" y1="1" x2="12" y2="3"></line> <line x1="12" y1="21" x2="12" y2="23"></line> <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line> <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line> <line x1="1" y1="12" x2="3" y2="12"></line> <line x1="21" y1="12" x2="23" y2="12"></line> <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line> <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line> </svg> <svg class="dark-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> </button> </div> </div> </div> </header> <main>  <div class="wiki-container" data-astro-cid-4hjocuh2> <div class="header-section" data-astro-cid-4hjocuh2> <h1 data-astro-cid-4hjocuh2>Wikiページ一覧</h1> <div class="search-container" data-astro-cid-4hjocuh2> <div class="search-container size-lg" data-astro-cid-mjrxwznw> <form action="/starlight-issue-wiki-refactored/search" method="get" class="search-form" id="search-form" data-astro-cid-mjrxwznw> <div class="search-input-wrapper" data-astro-cid-mjrxwznw> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" data-astro-cid-mjrxwznw> <circle cx="11" cy="11" r="8" data-astro-cid-mjrxwznw></circle> <line x1="21" y1="21" x2="16.65" y2="16.65" data-astro-cid-mjrxwznw></line> </svg> <input type="search" name="q" id="search-input" placeholder="Wikiページを検索..." autocomplete="off" value="" class="search-input" aria-label="検索" required data-astro-cid-mjrxwznw>  <kbd class="keyboard-shortcut-hint" data-astro-cid-mjrxwznw>/</kbd> </div> </form> <div class="search-results" id="search-results" data-astro-cid-mjrxwznw></div> </div> <script>(function(){const BASE_PATH = "/starlight-issue-wiki-refactored";
+
+  // 検索フォームの要素を取得
+  const searchInput = document.getElementById('search-input');
+  const clearButton = document.getElementById('clear-search');
+  const searchResults = document.getElementById('search-results');
+  
+  // クリアボタンのイベントリスナー
+  clearButton?.addEventListener('click', () => {
+    if (searchInput) {
+      searchInput.value = '';
+      searchInput.focus();
+      
+      // 結果をクリア
+      if (searchResults) {
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'none';
+      }
+      
+      // クリアボタンを非表示
+      clearButton.style.display = 'none';
+    }
+  });
+  
+  // 入力値の変更を監視
+  searchInput?.addEventListener('input', () => {
+    if (clearButton) {
+      clearButton.style.display = searchInput.value ? 'flex' : 'none';
+    }
+  });
+  
+  // キーボードショートカット
+  document.addEventListener('keydown', (e) => {
+    // 入力フィールドやテキストエリアにフォーカスがある場合は無視
+    if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') {
+      return;
+    }
+    
+    // / キーで検索にフォーカス
+    if (e.key === '/' && searchInput) {
+      e.preventDefault();
+      searchInput.focus();
+    }
+    
+    // Escape キーで検索をクリア
+    if (e.key === 'Escape' && searchInput && document.activeElement === searchInput) {
+      searchInput.value = '';
+      searchInput.blur();
+      
+      // 結果をクリア
+      if (searchResults) {
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'none';
+      }
+      
+      // クリアボタンを非表示
+      if (clearButton) {
+        clearButton.style.display = 'none';
+      }
+    }
+  });
+  
+  // インスタント検索の設定
+  let searchTimeout = null;
+  let minSearchLength = 2;
+  
+  searchInput?.addEventListener('input', () => {
+    const query = searchInput.value.trim();
+    
+    // タイムアウトをクリア
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+    
+    // 検索文字列が短い場合は結果をクリア
+    if (query.length < minSearchLength) {
+      if (searchResults) {
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'none';
+      }
+      return;
+    }
+    
+    // 検索を遅延実行（入力中の検索を防止）
+    searchTimeout = setTimeout(() => {
+      fetchSearchResults(query);
+    }, 300);
+  });
+  
+  // 検索結果を取得
+  async function fetchSearchResults(query) {
+    if (!searchResults) return;
+    
+    try {
+      // 検索APIにリクエスト
+      const response = await fetch(`${BASE_PATH}/api/search?q=${encodeURIComponent(query)}`);
+      
+      if (!response.ok) {
+        throw new Error('検索リクエストに失敗しました');
+      }
+      
+      const data = await response.json();
+      
+      // 検索結果を表示
+      if (data.results && data.results.length > 0) {
+        renderSearchResults(data.results);
+        searchResults.style.display = 'block';
+      } else {
+        searchResults.innerHTML = '<div class="no-results">検索結果が見つかりませんでした</div>';
+        searchResults.style.display = 'block';
+      }
+    } catch (error) {
+      console.error('検索エラー:', error);
+      searchResults.innerHTML = '<div class="search-error">検索中にエラーが発生しました</div>';
+      searchResults.style.display = 'block';
+    }
+  }
+  
+  // 検索結果のレンダリング
+  function renderSearchResults(results) {
+    if (!searchResults) return;
+    
+    // 結果の上限
+    const maxResults = 5;
+    const limitedResults = results.slice(0, maxResults);
+    
+    // 結果をHTML形式で表示
+    let resultsHTML = '<ul class="search-results-list">';
+    
+    limitedResults.forEach((result, index) => {
+      resultsHTML += `
+        <li class="search-result-item" data-index="${index}">
+          <a href="${BASE_PATH}/wiki/${result.slug}" class="search-result-link">
+            <div class="search-result-title">${result.title}</div>
+            <div class="search-result-snippet">${result.snippet}</div>
+            ${result.labels && result.labels.length > 0 ? 
+              `<div class="search-result-labels">
+                ${result.labels.map((label) => 
+                  `<span class="search-result-label" style="background-color: #${label.color || 'ededed'}">${label.name}</span>`
+                ).join('')}
+              </div>` : ''
+            }
+          </a>
+        </li>
+      `;
+    });
+    
+    // 結果が多い場合、すべての結果を表示するリンクを追加
+    if (results.length > maxResults) {
+      const query = searchInput?.value || '';
+      resultsHTML += `
+        <li class="search-more-item">
+          <a href="${BASE_PATH}/search?q=${encodeURIComponent(query)}" class="search-more-link">
+            すべての結果を表示 (${results.length}件)
+          </a>
+        </li>
+      `;
+    }
+    
+    resultsHTML += '</ul>';
+    searchResults.innerHTML = resultsHTML;
+    
+    // キーボードナビゲーションを設定
+    setupKeyboardNavigation();
+  }
+  
+  // キーボードナビゲーション
+  function setupKeyboardNavigation() {
+    let currentIndex = -1;
+    const resultItems = document.querySelectorAll('.search-result-item');
+    
+    searchInput?.addEventListener('keydown', (e) => {
+      // 上下キーでナビゲーション
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (currentIndex < resultItems.length - 1) {
+          currentIndex++;
+          highlightResult(currentIndex);
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (currentIndex > 0) {
+          currentIndex--;
+          highlightResult(currentIndex);
+        }
+      } else if (e.key === 'Enter' && currentIndex >= 0) {
+        e.preventDefault();
+        const selectedLink = document.querySelector(`.search-result-item[data-index="${currentIndex}"] a`);
+        if (selectedLink) {
+          selectedLink.click();
+        }
+      }
+    });
+  }
+  
+  // 結果のハイライト
+  function highlightResult(index) {
+    const resultItems = document.querySelectorAll('.search-result-item');
+    
+    resultItems.forEach((item) => {
+      item.classList.remove('active');
+    });
+    
+    const activeItem = document.querySelector(`.search-result-item[data-index="${index}"]`);
+    if (activeItem) {
+      activeItem.classList.add('active');
+      // スクロールして表示
+      activeItem.scrollIntoView({ block: 'nearest' });
+    }
+  }
+})();</script>  </div> </div> <div class="message-box" data-astro-cid-4hjocuh2> <p data-astro-cid-4hjocuh2>Wikiページが読み込まれています...</p> <p data-astro-cid-4hjocuh2>または、まだページが作成されていない可能性があります。</p> <p data-astro-cid-4hjocuh2><a href="/starlight-issue-wiki-refactored/wiki/new" class="create-link" data-astro-cid-4hjocuh2>新しいページを作成</a>してみませんか？</p> </div> </div>  </main> <footer id="main-footer"> <div class="container"> <div class="footer-content"> <div class="footer-info"> <p>&copy; 2025 GitWiki Hub</p> <p>Powered by <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a> &amp; <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub Issues</a></p> </div> <div class="footer-links"> <a href="/starlight-issue-wiki-refactored/about">このサイトについて</a> <a href="https://github.com/nao-amj/starlight-issue-wiki-refactored/issues/new" target="_blank" rel="noopener noreferrer">新しいページを作成</a> <a href="/starlight-issue-wiki-refactored/data-management">データ管理</a> </div> </div> </div> </footer> <!-- テーマ切り替えスクリプト -->  <!-- スロット: 追加のスクリプト -->  </body></html>  <script>
+  // ページ読み込み時にIssueを取得
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      // Wiki一覧を取得
+      const response = await fetch('/api/wiki');
+      
+      if (!response.ok) {
+        throw new Error('Wikiデータの取得に失敗しました');
+      }
+      
+      // 応答をJSONとして解析
+      const data = await response.json();
+      
+      // コンテナ要素を取得
+      const container = document.querySelector('.wiki-container');
+      
+      // メッセージボックスを削除
+      const messageBox = document.querySelector('.message-box');
+      if (messageBox) {
+        messageBox.remove();
+      }
+      
+      // Wikiリストを表示
+      if (data.wiki && data.wiki.length > 0) {
+        // Wikiをカテゴリーごとにグループ化
+        const categories = {};
+        const uncategorized = [];
+        
+        data.wiki.forEach(page => {
+          if (page.labels && page.labels.length > 0) {
+            const category = page.labels[0].name;
+            if (!categories[category]) {
+              categories[category] = [];
+            }
+            categories[category].push(page);
+          } else {
+            uncategorized.push(page);
+          }
+        });
+        
+        // カテゴリーコンテナを作成
+        const categoryContainer = document.createElement('div');
+        categoryContainer.className = 'wiki-categories';
+        
+        // カテゴリーリストを作成
+        Object.keys(categories).sort().forEach(category => {
+          const categorySection = document.createElement('div');
+          categorySection.className = 'category-section';
+          
+          const categoryHeader = document.createElement('h2');
+          categoryHeader.className = 'category-title';
+          categoryHeader.textContent = category;
+          
+          const pageList = document.createElement('div');
+          pageList.className = 'page-list';
+          
+          // カテゴリー内のページをソート
+          categories[category].sort((a, b) => a.title.localeCompare(b.title)).forEach(page => {
+            const pageItem = document.createElement('a');
+            pageItem.className = 'page-item';
+            pageItem.href = `${BASE_PATH}/wiki/${page.slug}`;
+            pageItem.innerHTML = `
+              <span class="page-title">${page.title}</span>
+              <span class="page-info">更新: ${new Date(page.updatedAt).toLocaleDateString()}</span>
+            `;
+            pageList.appendChild(pageItem);
+          });
+          
+          categorySection.appendChild(categoryHeader);
+          categorySection.appendChild(pageList);
+          categoryContainer.appendChild(categorySection);
+        });
+        
+        // 未分類のページがあれば追加
+        if (uncategorized.length > 0) {
+          const uncategorizedSection = document.createElement('div');
+          uncategorizedSection.className = 'category-section';
+          
+          const uncategorizedHeader = document.createElement('h2');
+          uncategorizedHeader.className = 'category-title';
+          uncategorizedHeader.textContent = '未分類';
+          
+          const pageList = document.createElement('div');
+          pageList.className = 'page-list';
+          
+          // 未分類のページをソート
+          uncategorized.sort((a, b) => a.title.localeCompare(b.title)).forEach(page => {
+            const pageItem = document.createElement('a');
+            pageItem.className = 'page-item';
+            pageItem.href = `${BASE_PATH}/wiki/${page.slug}`;
+            pageItem.innerHTML = `
+              <span class="page-title">${page.title}</span>
+              <span class="page-info">更新: ${new Date(page.updatedAt).toLocaleDateString()}</span>
+            `;
+            pageList.appendChild(pageItem);
+          });
+          
+          uncategorizedSection.appendChild(uncategorizedHeader);
+          uncategorizedSection.appendChild(pageList);
+          categoryContainer.appendChild(uncategorizedSection);
+        }
+        
+        container.appendChild(categoryContainer);
+      } else {
+        // Wikiが空の場合
+        const emptyMessage = document.createElement('div');
+        emptyMessage.className = 'message-box';
+        emptyMessage.innerHTML = `
+          <p>まだWikiページが作成されていません。</p>
+          <p><a href="${BASE_PATH}/wiki/new" class="create-link">新しいページを作成</a>してみませんか？</p>
+        `;
+        container.appendChild(emptyMessage);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      
+      // エラーメッセージを表示
+      const container = document.querySelector('.wiki-container');
+      const messageBox = document.querySelector('.message-box');
+      
+      if (messageBox) {
+        messageBox.innerHTML = `
+          <p>Wikiデータの読み込みに失敗しました。</p>
+          <p>エラー: ${error.message}</p>
+          <p>しばらく経ってから再度お試しください。</p>
+        `;
+      }
+    }
+  });
+</script>
