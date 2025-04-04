@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+// @ts-ignore 実際にはscriptタグ内で使用しています
 import { BASE_PATH } from '@/config';
 ---
 
@@ -167,7 +168,7 @@ import { BASE_PATH } from '@/config';
   }
 </style>
 
-<script is:inline>
+<script is:inline define:vars={{ BASE_PATH }}>
   document.addEventListener('DOMContentLoaded', async () => {
     // ノードが存在しない場合のメッセージを表示
     const graphView = document.getElementById('graph-view');
